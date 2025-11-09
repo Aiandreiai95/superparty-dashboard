@@ -237,6 +237,371 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
+        /* CHAT SYSTEM STYLES */
+        .chat-container {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 20px;
+            height: calc(100vh - 160px);
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Chat Sidebar - Lista Evenimente */
+        .chat-sidebar {
+            background: #f9fafb;
+            border-right: 1px solid #e5e7eb;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .chat-sidebar-header {
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .chat-sidebar-header h3 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        
+        .chat-sidebar-header p {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+        
+        .chat-search {
+            padding: 15px;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .chat-search input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .chat-search input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .chat-events-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+        }
+        
+        .chat-event-item {
+            padding: 15px;
+            margin-bottom: 8px;
+            background: white;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            position: relative;
+        }
+        
+        .chat-event-item:hover {
+            border-color: #667eea;
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+        }
+        
+        .chat-event-item.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .chat-event-name {
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .chat-event-date {
+            font-size: 12px;
+            opacity: 0.7;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .chat-event-item.active .chat-event-date {
+            opacity: 0.9;
+        }
+        
+        .unread-badge {
+            background: #ef4444;
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 12px;
+            min-width: 20px;
+            text-align: center;
+        }
+        
+        .chat-event-item.active .unread-badge {
+            background: white;
+            color: #667eea;
+        }
+        
+        /* Chat Main Area */
+        .chat-main {
+            display: flex;
+            flex-direction: column;
+            background: white;
+        }
+        
+        .chat-header {
+            padding: 20px 30px;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .chat-header-info h3 {
+            font-size: 20px;
+            color: #1f2937;
+            margin-bottom: 5px;
+        }
+        
+        .chat-header-info p {
+            font-size: 13px;
+            color: #6b7280;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .chat-header-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .chat-header-btn {
+            padding: 8px 16px;
+            border: 2px solid #e5e7eb;
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .chat-header-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+        
+        /* Messages Area */
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px;
+            background: #f9fafb;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .chat-message {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            animation: messageSlideIn 0.3s ease;
+        }
+        
+        @keyframes messageSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .chat-message.sent {
+            flex-direction: row-reverse;
+        }
+        
+        .chat-message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        
+        .chat-message.sent .chat-message-avatar {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+        
+        .chat-message-content {
+            max-width: 60%;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .chat-message.sent .chat-message-content {
+            align-items: flex-end;
+        }
+        
+        .chat-message-bubble {
+            padding: 12px 18px;
+            border-radius: 18px;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            word-wrap: break-word;
+        }
+        
+        .chat-message.sent .chat-message-bubble {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .chat-message-text {
+            font-size: 15px;
+            line-height: 1.5;
+        }
+        
+        .chat-message-time {
+            font-size: 11px;
+            color: #9ca3af;
+            padding: 0 5px;
+        }
+        
+        .chat-message.sent .chat-message-time {
+            text-align: right;
+        }
+        
+        /* Chat Input */
+        .chat-input-container {
+            padding: 20px 30px;
+            background: white;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .chat-input-wrapper {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        
+        .chat-input {
+            flex: 1;
+            padding: 14px 20px;
+            border: 2px solid #e5e7eb;
+            border-radius: 25px;
+            font-size: 15px;
+            transition: all 0.3s;
+            resize: none;
+            font-family: inherit;
+            max-height: 120px;
+        }
+        
+        .chat-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .chat-input-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .chat-action-btn {
+            width: 48px;
+            height: 48px;
+            border: none;
+            background: #f3f4f6;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .chat-action-btn:hover {
+            background: #e5e7eb;
+            transform: scale(1.1);
+        }
+        
+        .chat-send-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .chat-send-btn:hover {
+            background: linear-gradient(135deg, #5568d3 0%, #653a8b 100%);
+            transform: scale(1.1);
+        }
+        
+        .chat-send-btn:active {
+            transform: scale(1.05);
+        }
+        
+        /* Empty State */
+        .chat-empty-state {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #9ca3af;
+            gap: 15px;
+        }
+        
+        .chat-empty-state-icon {
+            font-size: 64px;
+            opacity: 0.5;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .chat-empty-state h3 {
+            font-size: 20px;
+            color: #6b7280;
+        }
+        
+        .chat-empty-state p {
+            font-size: 14px;
+            text-align: center;
+            max-width: 300px;
+        }
+        
         .sidebar-menu {
             flex: 1;
             padding: 20px 0;
@@ -484,7 +849,8 @@
         @media (max-width: 768px) {
             .sidebar {
                 transform: translateX(-100%);
-                transition: transform 0.3s;
+                transition: transform 0.3s ease;
+                z-index: 1001;
             }
             
             .sidebar.open {
@@ -495,10 +861,39 @@
                 margin-left: 0;
                 padding: 20px;
                 padding-top: 80px;
+                transition: none;
+                width: 100%;
+            }
+            
+            /* Overlay întunecat când sidebar-ul e deschis */
+            .sidebar.open::before {
+                content: '';
+                position: fixed;
+                top: 0;
+                left: 280px;
+                width: calc(100vw - 280px);
+                height: 100vh;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: -1;
+                animation: fadeIn 0.3s ease;
+            }
+            
+            .page-header {
+                margin-top: 0;
+            }
+            
+            .page-header h2 {
+                font-size: 24px;
+            }
+            
+            .page-header p {
+                font-size: 14px;
             }
             
             .mobile-menu-toggle {
                 display: flex !important;
+                transition: all 0.3s ease;
+                z-index: 1002;
             }
             
             .cards-grid,
@@ -510,7 +905,7 @@
 </head>
 <body>
     <!-- Mobile Menu Toggle -->
-    <button class="mobile-menu-toggle" onclick="toggleSidebar()">☰</button>
+    <button class="mobile-menu-toggle" id="mobileMenuBtn" onclick="toggleSidebar()">☰</button>
     
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
@@ -554,6 +949,10 @@
             <div class="menu-item" onclick="showPage('cu-factura')">
                 <span class="menu-icon">🧾</span>
                 <span>Cu Factură</span>
+            </div>
+            <div class="menu-item" onclick="showPage('chat-clienti')">
+                <span class="menu-icon">💬</span>
+                <span>Chat Clienți</span>
             </div>
             <div class="menu-item" onclick="showPage('echipa')">
                 <span class="menu-icon">👥</span>
@@ -797,14 +1196,29 @@
                     
                     <!-- Metodă Plată -->
                     <div style="margin-bottom: 20px;">
-                        <label style="display: block; color: #6b7280; font-size: 14px; margin-bottom: 8px; font-weight: 500;">Metodă Plată 💳</label>
-                        <select name="metodaPlata" style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 10px; font-size: 15px;" required>
+                        <label style="display: block; color: #6b7280; font-size: 14px; margin-bottom: 8px; font-weight: 500;">Cum se încasează? 💳</label>
+                        <select name="metodaPlata" id="metodaPlata" onchange="handleMetodaPlataChange()" style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 10px; font-size: 15px;" required>
                             <option value="">Selectează...</option>
-                            <option value="Cash">💵 Cash</option>
-                            <option value="Factură">🧾 Factură</option>
-                            <option value="Transfer Bancar">🏦 Transfer Bancar</option>
-                            <option value="Card">💳 Card</option>
+                            <option value="Cash la final">💵 Cash la final de petrecere</option>
+                            <option value="Prin factura">🧾 Prin factură</option>
+                            <option value="Alta varianta">✅ Altă variantă / A plătit</option>
+                            <option value="Card partial + Cash rest">💳 Pe card o parte + restul cash</option>
+                            <option value="Cash partial + Card rest">💵 Cash o parte + restul pe card</option>
                         </select>
+                    </div>
+                    
+                    <!-- Câmp condiționat: Card partial -->
+                    <div id="campCardPartial" style="margin-bottom: 20px; display: none;">
+                        <label style="display: block; color: #6b7280; font-size: 14px; margin-bottom: 8px; font-weight: 500;">💳 Cât s-a plătit pe card?</label>
+                        <input type="number" name="sumaCard" id="sumaCard" style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 10px; font-size: 15px;" placeholder="Ex: 150">
+                        <p style="margin-top: 5px; font-size: 13px; color: #6b7280;">Restul se va plăti cash</p>
+                    </div>
+                    
+                    <!-- Câmp condiționat: Cash partial -->
+                    <div id="campCashPartial" style="margin-bottom: 20px; display: none;">
+                        <label style="display: block; color: #6b7280; font-size: 14px; margin-bottom: 8px; font-weight: 500;">💵 Cât s-a plătit cash?</label>
+                        <input type="number" name="sumaCash" id="sumaCash" style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 10px; font-size: 15px;" placeholder="Ex: 100">
+                        <p style="margin-top: 5px; font-size: 13px; color: #6b7280;">Restul se va plăti pe card</p>
                     </div>
                     
                     <!-- Servicii dorite -->
@@ -978,6 +1392,45 @@
                     <p style="text-align: center; color: #6b7280; padding: 40px 0;">
                         📄 Nu există evenimente cu factură încă
                     </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Page: Chat Clienți -->
+        <div class="page" id="chat-clienti">
+            <div class="page-header">
+                <h2>💬 Chat Clienți</h2>
+                <p>Conversații cu clienții pentru fiecare eveniment</p>
+            </div>
+            
+            <div class="chat-container">
+                <!-- Chat Sidebar - Lista Evenimente -->
+                <div class="chat-sidebar">
+                    <div class="chat-sidebar-header">
+                        <h3>📋 Evenimente</h3>
+                        <p>Selectează un eveniment pentru chat</p>
+                    </div>
+                    
+                    <div class="chat-search">
+                        <input type="text" id="chatSearchInput" placeholder="🔍 Caută eveniment..." onkeyup="searchChatEvents()">
+                    </div>
+                    
+                    <div class="chat-events-list" id="chatEventsList">
+                        <!-- Events will be loaded here -->
+                        <div style="text-align: center; padding: 40px 20px; color: #9ca3af;">
+                            <div style="font-size: 48px; margin-bottom: 15px;">📭</div>
+                            <p>Se încarcă evenimente...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Chat Main Area -->
+                <div class="chat-main" id="chatMainArea">
+                    <div class="chat-empty-state">
+                        <div class="chat-empty-state-icon">💬</div>
+                        <h3>Selectează un eveniment</h3>
+                        <p>Alege un eveniment din listă pentru a vedea sau începe o conversație</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1352,8 +1805,16 @@
     <!-- Page: Bifează Evenimente -->
     <div class="page" id="bifeaza-evenimente">
         <div class="page-header" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; padding: 30px; border-radius: 15px; margin-bottom: 30px;">
-            <h2>✅ Bifează Evenimente</h2>
-            <p style="opacity: 0.9;">Marchează evenimentele ca finalizate</p>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h2 style="margin: 0 0 10px 0;">✅ Bifează Evenimente</h2>
+                    <p style="opacity: 0.9; margin: 0;">Marchează evenimentele ca finalizate</p>
+                </div>
+                <button onclick="logoutAdmin()" style="background: rgba(255, 255, 255, 0.2); color: white; border: 2px solid white; padding: 12px 24px; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 15px; transition: all 0.3s; display: flex; align-items: center; gap: 10px;" onmouseover="this.style.background='rgba(255, 255, 255, 0.3)'" onmouseout="this.style.background='rgba(255, 255, 255, 0.2)'">
+                    <span style="font-size: 20px;">🚪</span>
+                    <span>Ieșire Admin</span>
+                </button>
+            </div>
         </div>
         
         <div style="background: #fee2e2; border-left: 4px solid #ef4444; padding: 20px; border-radius: 10px; margin-bottom: 25px;">
@@ -1382,7 +1843,7 @@
     -->
     
     <!-- Buton Admin Vizibil cu 10 Clickuri Secrete -->
-    <button id="secretAdminBtn" style="position: fixed; bottom: 30px; left: 30px; z-index: 1000; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; border: none; border-radius: 50%; width: 70px; height: 70px; font-size: 32px; cursor: pointer; box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4); transition: all 0.3s; display: flex; align-items: center; justify-content: center;" onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 12px 35px rgba(239, 68, 68, 0.6)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 8px 25px rgba(239, 68, 68, 0.4)';">
+    <button id="secretAdminBtn" style="position: fixed; top: 90px; left: 20px; z-index: 1000; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; border: none; border-radius: 12px; width: 60px; height: 60px; font-size: 28px; cursor: pointer; box-shadow: 0 6px 25px rgba(239, 68, 68, 0.4); transition: all 0.3s; display: flex; align-items: center; justify-content: center;" onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 8px 30px rgba(239, 68, 68, 0.6)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 6px 25px rgba(239, 68, 68, 0.4)';">
         🔐
     </button>
 
@@ -1565,7 +2026,8 @@
         }
         
         function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('open');
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('open');
         }
         
         // Close sidebar when clicking outside on mobile
@@ -2423,6 +2885,32 @@ IMPORTANT: Răspunde DOAR cu JSON-ul, fără explicații sau text suplimentar. D
             }
         }
         
+        // Funcție pentru gestionarea câmpurilor condiționale la Metodă Plată
+        function handleMetodaPlataChange() {
+            const metoda = document.getElementById('metodaPlata').value;
+            const campCardPartial = document.getElementById('campCardPartial');
+            const campCashPartial = document.getElementById('campCashPartial');
+            const sumaCard = document.getElementById('sumaCard');
+            const sumaCash = document.getElementById('sumaCash');
+            
+            // Ascunde toate câmpurile mai întâi
+            campCardPartial.style.display = 'none';
+            campCashPartial.style.display = 'none';
+            
+            // Elimină required de pe câmpuri
+            sumaCard.removeAttribute('required');
+            sumaCash.removeAttribute('required');
+            
+            // Arată câmpul corespunzător în funcție de selecție
+            if (metoda === 'Card partial + Cash rest') {
+                campCardPartial.style.display = 'block';
+                sumaCard.setAttribute('required', 'required');
+            } else if (metoda === 'Cash partial + Card rest') {
+                campCashPartial.style.display = 'block';
+                sumaCash.setAttribute('required', 'required');
+            }
+        }
+        
         // Atașează event listener pentru butonul secret admin
         document.addEventListener('DOMContentLoaded', function() {
             // SISTEM 10 CLICKURI SECRETE pentru butonul vizibil
@@ -2492,6 +2980,315 @@ IMPORTANT: Răspunde DOAR cu JSON-ul, fără explicații sau text suplimentar. D
             // Verificare versiune (pentru debug)
             console.log('🎉 SuperParty Dashboard v2.1 - 10 Secret Clicks Mode');
         });
+        
+        // ==================== CHAT SYSTEM ====================
+        
+        let currentChatEvent = null;
+        let chatMessages = [];
+        let chatUnreadCounts = {};
+        
+        // Încarcă lista de evenimente pentru chat
+        async function loadChatEvents() {
+            try {
+                const { data: evenimente, error } = await supabase
+                    .from('evenimente')
+                    .select('*')
+                    .order('data_eveniment', { ascending: false });
+                
+                if (error) throw error;
+                
+                const lista = document.getElementById('chatEventsList');
+                
+                if (!evenimente || evenimente.length === 0) {
+                    lista.innerHTML = `
+                        <div style="text-align: center; padding: 40px 20px; color: #9ca3af;">
+                            <div style="font-size: 48px; margin-bottom: 15px;">📭</div>
+                            <p>Nu există evenimente încă</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Încarcă numărul de mesaje necitite pentru fiecare eveniment
+                await loadUnreadCounts(evenimente);
+                
+                lista.innerHTML = evenimente.map(eveniment => {
+                    const unreadCount = chatUnreadCounts[eveniment.id] || 0;
+                    const badgeHtml = unreadCount > 0 ? `<span class="unread-badge">${unreadCount}</span>` : '';
+                    
+                    return `
+                        <div class="chat-event-item" onclick="selectChatEvent(${eveniment.id}, '${escapeHtml(eveniment.nume_copil)}', '${eveniment.data_eveniment}')">
+                            <div class="chat-event-name">
+                                <span>🎉 ${escapeHtml(eveniment.nume_copil)}</span>
+                                ${badgeHtml}
+                            </div>
+                            <div class="chat-event-date">
+                                <span>📅</span>
+                                <span>${formatDate(eveniment.data_eveniment)}</span>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                
+            } catch (error) {
+                console.error('Eroare la încărcarea evenimentelor:', error);
+                document.getElementById('chatEventsList').innerHTML = `
+                    <div style="text-align: center; padding: 40px 20px; color: #ef4444;">
+                        <div style="font-size: 48px; margin-bottom: 15px;">⚠️</div>
+                        <p>Eroare la încărcare</p>
+                    </div>
+                `;
+            }
+        }
+        
+        // Încarcă numărul de mesaje necitite
+        async function loadUnreadCounts(evenimente) {
+            try {
+                const { data: messages, error } = await supabase
+                    .from('chat_messages')
+                    .select('event_id, is_read')
+                    .eq('is_from_client', true)
+                    .eq('is_read', false);
+                
+                if (!error && messages) {
+                    chatUnreadCounts = {};
+                    messages.forEach(msg => {
+                        chatUnreadCounts[msg.event_id] = (chatUnreadCounts[msg.event_id] || 0) + 1;
+                    });
+                }
+            } catch (error) {
+                console.log('Nu s-au putut încărca mesajele necitite:', error);
+            }
+        }
+        
+        // Selectează un eveniment pentru chat
+        async function selectChatEvent(eventId, numeClient, dataEveniment) {
+            currentChatEvent = { id: eventId, nume: numeClient, data: dataEveniment };
+            
+            // Marchează ca activ în listă
+            document.querySelectorAll('.chat-event-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.target.closest('.chat-event-item').classList.add('active');
+            
+            // Construiește interfața de chat
+            const chatMain = document.getElementById('chatMainArea');
+            chatMain.innerHTML = `
+                <div class="chat-header">
+                    <div class="chat-header-info">
+                        <h3>🎉 ${escapeHtml(numeClient)}</h3>
+                        <p>
+                            <span>📅 ${formatDate(dataEveniment)}</span>
+                        </p>
+                    </div>
+                    <div class="chat-header-actions">
+                        <button class="chat-header-btn" onclick="markAllAsRead(${eventId})">
+                            ✓ Marchează citit
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="chat-messages" id="chatMessagesContainer">
+                    <!-- Messages will be loaded here -->
+                </div>
+                
+                <div class="chat-input-container">
+                    <div class="chat-input-wrapper">
+                        <textarea 
+                            class="chat-input" 
+                            id="chatInput" 
+                            placeholder="Scrie un mesaj..."
+                            rows="1"
+                            onkeydown="handleChatKeyPress(event)"
+                        ></textarea>
+                        <div class="chat-input-actions">
+                            <button class="chat-action-btn" onclick="insertEmoji()">😊</button>
+                            <button class="chat-action-btn chat-send-btn" onclick="sendChatMessage()">📤</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Încarcă mesajele
+            await loadChatMessages(eventId);
+            
+            // Marchează mesajele ca citite
+            await markMessagesAsRead(eventId);
+        }
+        
+        // Încarcă mesajele pentru evenimentul selectat
+        async function loadChatMessages(eventId) {
+            try {
+                const { data: messages, error } = await supabase
+                    .from('chat_messages')
+                    .select('*')
+                    .eq('event_id', eventId)
+                    .order('created_at', { ascending: true });
+                
+                if (error) throw error;
+                
+                const container = document.getElementById('chatMessagesContainer');
+                
+                if (!messages || messages.length === 0) {
+                    container.innerHTML = `
+                        <div class="chat-empty-state">
+                            <div class="chat-empty-state-icon">💬</div>
+                            <h3>Nicio conversație încă</h3>
+                            <p>Trimite primul mesaj pentru a începe conversația cu acest client</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                chatMessages = messages;
+                displayChatMessages();
+                
+            } catch (error) {
+                console.error('Eroare la încărcarea mesajelor:', error);
+            }
+        }
+        
+        // Afișează mesajele în chat
+        function displayChatMessages() {
+            const container = document.getElementById('chatMessagesContainer');
+            
+            container.innerHTML = chatMessages.map(msg => {
+                const isSent = !msg.is_from_client;
+                const time = new Date(msg.created_at).toLocaleTimeString('ro-RO', { hour: '2-digit', minute: '2-digit' });
+                const initials = isSent ? '🤵' : getInitials(currentChatEvent.nume);
+                
+                return `
+                    <div class="chat-message ${isSent ? 'sent' : ''}">
+                        <div class="chat-message-avatar">${initials}</div>
+                        <div class="chat-message-content">
+                            <div class="chat-message-bubble">
+                                <div class="chat-message-text">${escapeHtml(msg.message_text)}</div>
+                            </div>
+                            <div class="chat-message-time">${time}</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            // Scroll la ultimul mesaj
+            container.scrollTop = container.scrollHeight;
+        }
+        
+        // Trimite mesaj
+        async function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            const messageText = input.value.trim();
+            
+            if (!messageText || !currentChatEvent) return;
+            
+            try {
+                const { data, error } = await supabase
+                    .from('chat_messages')
+                    .insert([{
+                        event_id: currentChatEvent.id,
+                        message_text: messageText,
+                        is_from_client: false,
+                        is_read: true,
+                        created_at: new Date().toISOString()
+                    }])
+                    .select();
+                
+                if (error) throw error;
+                
+                // Adaugă mesajul în listă
+                chatMessages.push(data[0]);
+                displayChatMessages();
+                
+                // Curăță input-ul
+                input.value = '';
+                input.style.height = 'auto';
+                
+            } catch (error) {
+                console.error('Eroare la trimiterea mesajului:', error);
+                alert('❌ Eroare la trimiterea mesajului');
+            }
+        }
+        
+        // Handle Enter key pentru trimitere
+        function handleChatKeyPress(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendChatMessage();
+            }
+        }
+        
+        // Inserează emoji în input
+        function insertEmoji() {
+            const emojis = ['😊', '👍', '❤️', '🎉', '🎂', '🎈', '✨', '🌟', '💖', '😄'];
+            const emoji = emojis[Math.floor(Math.random() * emojis.length)];
+            const input = document.getElementById('chatInput');
+            input.value += emoji;
+            input.focus();
+        }
+        
+        // Marchează toate mesajele ca citite
+        async function markMessagesAsRead(eventId) {
+            try {
+                await supabase
+                    .from('chat_messages')
+                    .update({ is_read: true })
+                    .eq('event_id', eventId)
+                    .eq('is_from_client', true);
+                
+                // Actualizează contorul
+                chatUnreadCounts[eventId] = 0;
+                
+                // Reîncarcă lista
+                await loadChatEvents();
+                
+            } catch (error) {
+                console.error('Eroare la marcarea mesajelor:', error);
+            }
+        }
+        
+        // Marchează toate ca citite (buton)
+        async function markAllAsRead(eventId) {
+            await markMessagesAsRead(eventId);
+            alert('✅ Toate mesajele au fost marcate ca citite!');
+        }
+        
+        // Caută evenimente în chat
+        function searchChatEvents() {
+            const searchTerm = document.getElementById('chatSearchInput').value.toLowerCase();
+            const items = document.querySelectorAll('.chat-event-item');
+            
+            items.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                item.style.display = text.includes(searchTerm) ? 'block' : 'none';
+            });
+        }
+        
+        // Funcție helper pentru inițiale
+        function getInitials(name) {
+            if (!name) return '?';
+            const parts = name.split(' ');
+            if (parts.length >= 2) {
+                return (parts[0][0] + parts[1][0]).toUpperCase();
+            }
+            return name.substring(0, 2).toUpperCase();
+        }
+        
+        // Helper pentru escape HTML
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // Încarcă chat-ul când pagina este deschisă
+        const originalShowPage = showPage;
+        showPage = function(pageId) {
+            originalShowPage(pageId);
+            
+            if (pageId === 'chat-clienti') {
+                loadChatEvents();
+            }
+        };
     </script>
 </body>
 </html>
