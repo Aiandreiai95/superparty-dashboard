@@ -1326,7 +1326,7 @@
                     </button>
                 </div>
                 <p style="margin: 8px 0 0 0; font-size: 11px; color: #9ca3af; text-align: center;">
-                    💡 Powered by Claude AI - Răspunsurile sunt generate de inteligență artificială
+                    💡 Powered by ChatGPT - Răspunsurile sunt generate de inteligență artificială
                 </p>
             </div>
         </div>
@@ -1570,22 +1570,20 @@
             sendButton.textContent = '⏳ Așteaptă...';
             
             try {
-                // Call Claude API
-                const response = await fetch('https://api.anthropic.com/v1/messages', {
+                // Call OpenAI ChatGPT API
+                const response = await fetch('https://api.openai.com/v1/chat/completions', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'x-api-key': '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',
-                        'anthropic-version': '2023-06-01'
+                        'Authorization': 'Bearer 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'
                     },
                     body: JSON.stringify({
-                        model: 'claude-sonnet-4-20250514',
+                        model: 'gpt-3.5-turbo',
                         max_tokens: 300,
                         messages: [
-                            ...chatHistory,
-                            { role: 'user', content: message }
-                        ],
-                        system: `Ești Super AI, asistentul virtual al aplicației SuperParty - o platformă de management pentru evenimente petreceri copii. 
+                            {
+                                role: 'system',
+                                content: `Ești Super AI, asistentul virtual al aplicației SuperParty - o platformă de management pentru evenimente petreceri copii. 
 
 Aplicația are următoarele funcționalități:
 - Notează Evenimente: formular complet cu 29 câmpuri pentru detalii eveniment
@@ -1608,6 +1606,10 @@ Exemplu GREȘIT: "Bine ai venit! Mă bucur să te ajut! Hai să îți explic în
 Exemplu CORECT: "Simplu: Click 'Echipa' → 'Adaugă Membru' → completezi formularul → Gata!"
 
 Dacă nu știi ceva, spune direct "Nu am informații despre asta încă."`
+                            },
+                            ...chatHistory,
+                            { role: 'user', content: message }
+                        ]
                     })
                 });
                 
@@ -1617,7 +1619,7 @@ Dacă nu știi ceva, spune direct "Nu am informații despre asta încă."`
                 removeLoadingMessage(loadingId);
                 
                 // Add AI response
-                const aiMessage = data.content[0].text;
+                const aiMessage = data.choices[0].message.content;
                 addMessageToChat(aiMessage, 'assistant');
                 
                 // Update history
