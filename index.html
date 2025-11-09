@@ -551,6 +551,10 @@
                 <span class="menu-icon">🚗</span>
                 <span>Evenimente cu Șoferi</span>
             </div>
+            <div class="menu-item" onclick="showPage('cu-factura')">
+                <span class="menu-icon">🧾</span>
+                <span>Cu Factură</span>
+            </div>
             <div class="menu-item" onclick="showPage('echipa')">
                 <span class="menu-icon">👥</span>
                 <span>Echipa</span>
@@ -776,6 +780,18 @@
                         <input type="number" name="total" style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 10px; font-size: 15px;" placeholder="123" required>
                     </div>
                     
+                    <!-- Metodă Plată -->
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; color: #6b7280; font-size: 14px; margin-bottom: 8px; font-weight: 500;">Metodă Plată 💳</label>
+                        <select name="metodaPlata" style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 10px; font-size: 15px;" required>
+                            <option value="">Selectează...</option>
+                            <option value="Cash">💵 Cash</option>
+                            <option value="Factură">🧾 Factură</option>
+                            <option value="Transfer Bancar">🏦 Transfer Bancar</option>
+                            <option value="Card">💳 Card</option>
+                        </select>
+                    </div>
+                    
                     <!-- Servicii dorite -->
                     <div style="margin-bottom: 20px;">
                         <label style="display: block; color: #6b7280; font-size: 14px; margin-bottom: 8px; font-weight: 500;">Servicii dorite</label>
@@ -920,6 +936,35 @@
         <!-- Page: Evenimente cu Șoferi -->
         <div class="page" id="soferi">
             <!-- GOL - Nimic aici -->
+        </div>
+        
+        <!-- Page: Evenimente cu Factură -->
+        <div class="page" id="cu-factura">
+            <div class="page-header">
+                <h2>🧾 Evenimente cu Factură</h2>
+                <p>Toate evenimentele plătite prin factură</p>
+            </div>
+            
+            <div style="background: white; border-radius: 15px; padding: 25px; box-shadow: 0 2px 15px rgba(0,0,0,0.08);">
+                <!-- Statistici Rapide -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px;">
+                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; border-radius: 12px; color: white;">
+                        <div style="font-size: 32px; font-weight: 800;" id="totalFacturi">0</div>
+                        <div style="opacity: 0.9; font-size: 14px;">Total Facturi</div>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); padding: 20px; border-radius: 12px; color: white;">
+                        <div style="font-size: 32px; font-weight: 800;" id="sumaFacturi">0 RON</div>
+                        <div style="opacity: 0.9; font-size: 14px;">Valoare Totală</div>
+                    </div>
+                </div>
+                
+                <!-- Lista Evenimente -->
+                <div id="listaFacturi" style="margin-top: 20px;">
+                    <p style="text-align: center; color: #6b7280; padding: 40px 0;">
+                        📄 Nu există evenimente cu factură încă
+                    </p>
+                </div>
+            </div>
         </div>
         
         <!-- Page: Echipa -->
@@ -1461,6 +1506,11 @@
             // Add active to clicked menu item
             event.currentTarget.classList.add('active');
             
+            // Load data for specific pages
+            if (pageId === 'cu-factura') {
+                loadEvenimenteCuFactura();
+            }
+            
             // Close sidebar on mobile
             if (window.innerWidth <= 768) {
                 document.getElementById('sidebar').classList.remove('open');
@@ -1524,7 +1574,9 @@
                 const response = await fetch('https://api.anthropic.com/v1/messages', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'x-api-key': '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',
+                        'anthropic-version': '2023-06-01'
                     },
                     body: JSON.stringify({
                         model: 'claude-sonnet-4-20250514',
@@ -2107,6 +2159,118 @@ IMPORTANT: Răspunde DOAR cu JSON-ul, fără explicații sau text suplimentar. D
                 const row = button.closest('tr');
                 row.remove();
                 alert('✅ Membru șters!');
+            }
+        }
+        
+        // Funcție pentru încărcarea evenimentelor cu factură
+        async function loadEvenimenteCuFactura() {
+            try {
+                // Interogare Supabase pentru evenimente cu metodă plată = Factură
+                const { data, error } = await supabase
+                    .from('evenimente')
+                    .select('*')
+                    .eq('metoda_plata', 'Factură')
+                    .order('data_petrecere', { ascending: false });
+                
+                if (error) {
+                    console.error('Eroare la încărcarea evenimentelor cu factură:', error);
+                    return;
+                }
+                
+                // Calculează statistici
+                const totalFacturi = data.length;
+                const sumaFacturi = data.reduce((sum, evt) => sum + (parseFloat(evt.total) || 0), 0);
+                
+                // Actualizează statisticile
+                document.getElementById('totalFacturi').textContent = totalFacturi;
+                document.getElementById('sumaFacturi').textContent = sumaFacturi.toFixed(2) + ' RON';
+                
+                // Generează lista evenimentelor
+                const listaFacturi = document.getElementById('listaFacturi');
+                
+                if (data.length === 0) {
+                    listaFacturi.innerHTML = `
+                        <p style="text-align: center; color: #6b7280; padding: 40px 0;">
+                            📄 Nu există evenimente cu factură încă
+                        </p>
+                    `;
+                    return;
+                }
+                
+                // Crează HTML pentru fiecare eveniment
+                let html = '<div style="display: flex; flex-direction: column; gap: 15px;">';
+                
+                data.forEach(eveniment => {
+                    const dataFormatata = eveniment.data_petrecere ? new Date(eveniment.data_petrecere).toLocaleDateString('ro-RO') : 'N/A';
+                    const oraFormatata = eveniment.ora_petrecere || 'N/A';
+                    
+                    html += `
+                        <div style="border: 2px solid #e5e7eb; border-radius: 12px; padding: 20px; background: #f9fafb; transition: all 0.3s; cursor: pointer;" onmouseover="this.style.borderColor='#667eea'" onmouseout="this.style.borderColor='#e5e7eb'">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+                                <div>
+                                    <div style="font-size: 18px; font-weight: 700; color: #111827; margin-bottom: 5px;">
+                                        🎉 ${eveniment.personaj || 'Eveniment'}
+                                    </div>
+                                    <div style="color: #6b7280; font-size: 14px;">
+                                        👤 ${eveniment.nume || ''} ${eveniment.prenume || ''} | 📞 ${eveniment.telefon || 'N/A'}
+                                    </div>
+                                </div>
+                                <div style="text-align: right;">
+                                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 8px 16px; border-radius: 20px; font-weight: 700; font-size: 16px;">
+                                        ${parseFloat(eveniment.total || 0).toFixed(2)} RON
+                                    </div>
+                                    <div style="margin-top: 5px;">
+                                        <span style="background: #dcfce7; color: #16a34a; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 600;">
+                                            🧾 Factură
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-top: 15px; padding-top: 15px; border-top: 1px solid #e5e7eb;">
+                                <div>
+                                    <span style="color: #6b7280; font-size: 13px;">📅 Data:</span>
+                                    <span style="color: #111827; font-weight: 600; margin-left: 5px;">${dataFormatata}</span>
+                                </div>
+                                <div>
+                                    <span style="color: #6b7280; font-size: 13px;">⏰ Ora:</span>
+                                    <span style="color: #111827; font-weight: 600; margin-left: 5px;">${oraFormatata}</span>
+                                </div>
+                                <div>
+                                    <span style="color: #6b7280; font-size: 13px;">👶 Vârstă:</span>
+                                    <span style="color: #111827; font-weight: 600; margin-left: 5px;">${eveniment.varsta || 'N/A'} ani</span>
+                                </div>
+                                <div>
+                                    <span style="color: #6b7280; font-size: 13px;">👥 Copii:</span>
+                                    <span style="color: #111827; font-weight: 600; margin-left: 5px;">${eveniment.numar_copii || 'N/A'}</span>
+                                </div>
+                            </div>
+                            
+                            ${eveniment.adresa ? `
+                                <div style="margin-top: 12px; padding: 10px; background: white; border-radius: 8px;">
+                                    <span style="color: #6b7280; font-size: 13px;">📍 Adresă:</span>
+                                    <span style="color: #111827; font-weight: 500; margin-left: 5px;">${eveniment.adresa}</span>
+                                </div>
+                            ` : ''}
+                            
+                            ${eveniment.observatii ? `
+                                <div style="margin-top: 12px; padding: 10px; background: #fef3c7; border-radius: 8px; border-left: 4px solid #f59e0b;">
+                                    <span style="color: #92400e; font-size: 13px; font-weight: 600;">📝 Observații:</span>
+                                    <p style="color: #78350f; margin: 5px 0 0 0; font-size: 14px;">${eveniment.observatii}</p>
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+                });
+                
+                html += '</div>';
+                listaFacturi.innerHTML = html;
+                
+                console.log('✅ Încărcate', totalFacturi, 'evenimente cu factură');
+                
+            } catch (error) {
+                console.error('Eroare la încărcarea evenimentelor cu factură:', error);
+                alert('❌ Eroare la încărcarea datelor: ' + error.message);
             }
         }
     </script>
