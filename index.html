@@ -518,7 +518,7 @@
             <h1>🎉 SuperParty</h1>
             <div class="by-ai">
                 <span>BY</span>
-                <span class="ai-badge">
+                <span class="ai-badge" id="adminTrigger" style="cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'" title="">
                     <span class="ai-icon">🤖</span>
                     <span>AI</span>
                 </span>
@@ -526,7 +526,7 @@
             </div>
         </div>
         
-        <div class="sidebar-menu">
+        <div class="sidebar-menu" id="mainMenu">
             <div class="menu-item active" onclick="showPage('home')">
                 <span class="menu-icon">🏠</span>
                 <span>Acasă</span>
@@ -566,6 +566,21 @@
             <div class="menu-item" onclick="showPage('piniata')">
                 <span class="menu-icon">🎯</span>
                 <span>Piniata</span>
+            </div>
+            
+            <!-- ADMIN MENU - Hidden by default -->
+            <div id="adminMenu" style="display: none;">
+                <div style="border-top: 2px solid #ef4444; margin: 15px 0; padding-top: 15px;">
+                    <div style="color: #ef4444; font-weight: 700; font-size: 12px; padding: 0 20px 10px 20px; letter-spacing: 1px;">🔐 ADMIN MODE</div>
+                </div>
+                <div class="menu-item active" onclick="showPage('bifeaza-evenimente')" style="background: rgba(239, 68, 68, 0.1);">
+                    <span class="menu-icon">✅</span>
+                    <span style="color: #ef4444; font-weight: 600;">Bifează Evenimente</span>
+                </div>
+                <div class="menu-item" onclick="logoutAdmin()" style="background: rgba(239, 68, 68, 0.2); margin-top: 20px;">
+                    <span class="menu-icon">🚪</span>
+                    <span style="color: #ef4444; font-weight: 700;">Ieșire Admin</span>
+                </div>
             </div>
         </div>
     </div>
@@ -1331,6 +1346,32 @@
             </div>
         </div>
     </div>
+    
+    <!-- ADMIN PAGES -->
+    
+    <!-- Page: Bifează Evenimente -->
+    <div class="page" id="bifeaza-evenimente">
+        <div class="page-header" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; padding: 30px; border-radius: 15px; margin-bottom: 30px;">
+            <h2>✅ Bifează Evenimente</h2>
+            <p style="opacity: 0.9;">Marchează evenimentele ca finalizate</p>
+        </div>
+        
+        <div style="background: #fee2e2; border-left: 4px solid #ef4444; padding: 20px; border-radius: 10px; margin-bottom: 25px;">
+            <div style="font-weight: 700; color: #991b1b; margin-bottom: 5px;">🔐 MOD ADMIN ACTIV</div>
+            <div style="color: #7f1d1d; font-size: 14px;">Pagina pentru bifarea evenimentelor este în construcție</div>
+        </div>
+        
+        <div style="background: white; border-radius: 15px; padding: 40px; box-shadow: 0 2px 15px rgba(0,0,0,0.08); text-align: center;">
+            <div style="font-size: 64px; margin-bottom: 20px;">🚧</div>
+            <h3 style="color: #1f2937; margin-bottom: 15px;">Funcționalitate în Dezvoltare</h3>
+            <p style="color: #6b7280; font-size: 16px; max-width: 500px; margin: 0 auto;">
+                Pagina pentru bifarea și gestionarea evenimentelor va fi adăugată în curând.
+            </p>
+        </div>
+    </div>
+
+    </div>
+    <!-- End Main Content -->
 
     <!-- Floating AI Chat Button - DEZACTIVAT TEMPORAR
     <button class="ai-chat-button" onclick="openAIChat()">
@@ -1339,6 +1380,11 @@
         <span>Întreabă Super AI</span>
     </button>
     -->
+    
+    <!-- Buton Admin Vizibil cu 10 Clickuri Secrete -->
+    <button id="secretAdminBtn" style="position: fixed; bottom: 30px; left: 30px; z-index: 1000; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; border: none; border-radius: 50%; width: 70px; height: 70px; font-size: 32px; cursor: pointer; box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4); transition: all 0.3s; display: flex; align-items: center; justify-content: center;" onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 12px 35px rgba(239, 68, 68, 0.6)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 8px 25px rgba(239, 68, 68, 0.4)';">
+        🔐
+    </button>
 
     <script>
         // ============================================
@@ -2276,6 +2322,176 @@ IMPORTANT: Răspunde DOAR cu JSON-ul, fără explicații sau text suplimentar. D
                 alert('❌ Eroare la încărcarea datelor: ' + error.message);
             }
         }
+        
+        // ============================================
+        // ADMIN MODE FUNCTIONS
+        // ============================================
+        
+        let isAdminMode = false;
+        const ADMIN_PASSWORD = 'Andrei209512!0728242214';
+        
+        function checkAdminAccess() {
+            if (isAdminMode) {
+                alert('✅ Ești deja în modul admin!');
+                return;
+            }
+            
+            const password = prompt('🔐 Introdu parola de admin:');
+            
+            if (password === null) return; // User cancelled
+            
+            if (password === ADMIN_PASSWORD) {
+                isAdminMode = true;
+                
+                // ASCUNDE meniul normal
+                document.getElementById('mainMenu').style.display = 'none';
+                
+                // ARATĂ meniul admin simplificat
+                document.getElementById('adminMenu').style.display = 'block';
+                
+                alert('✅ Bine ai venit în modul ADMIN!\n\nAi acces complet la toate funcțiile administrative.');
+                
+                // Marchează header-ul ca admin
+                const header = document.querySelector('.sidebar-header');
+                header.style.background = 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)';
+                
+                // Adaugă badge admin
+                const byAi = document.querySelector('.by-ai');
+                if (!document.getElementById('adminBadge')) {
+                    const adminBadge = document.createElement('div');
+                    adminBadge.id = 'adminBadge';
+                    adminBadge.style.cssText = 'background: #fef2f2; color: #ef4444; padding: 5px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; margin-top: 10px; border: 2px solid #ef4444;';
+                    adminBadge.textContent = '🔐 ADMIN';
+                    byAi.appendChild(adminBadge);
+                }
+                
+                // Deschide prima pagină admin
+                showPage('bifeaza-evenimente');
+            } else {
+                alert('❌ Parolă incorectă!');
+            }
+        }
+        
+        function logoutAdmin() {
+            if (confirm('Sigur vrei să ieși din modul admin?')) {
+                isAdminMode = false;
+                
+                // ASCUNDE meniul admin
+                document.getElementById('adminMenu').style.display = 'none';
+                
+                // ARATĂ meniul normal
+                document.getElementById('mainMenu').style.display = 'block';
+                
+                // Resetează header-ul
+                const header = document.querySelector('.sidebar-header');
+                header.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                
+                // Șterge badge-ul admin
+                const adminBadge = document.getElementById('adminBadge');
+                if (adminBadge) adminBadge.remove();
+                
+                // Revino la pagina principală
+                showPage('home');
+                document.querySelectorAll('.menu-item')[0].click();
+                
+                alert('✅ Ai ieșit din modul admin!');
+            }
+        }
+        
+        // Admin Functions
+        function exportAllData() {
+            alert('📥 Export date în curs...\n\nFuncționalitate în dezvoltare!');
+        }
+        
+        function backupDatabase() {
+            alert('💾 Backup database în curs...\n\nFuncționalitate în dezvoltare!');
+        }
+        
+        function viewLogs() {
+            alert('📋 Deschidere log-uri...\n\nFuncționalitate în dezvoltare!');
+        }
+        
+        function clearOldData() {
+            if (confirm('⚠️ ATENȚIE!\n\nSigur vrei să ștergi datele vechi?\n\nAceastă acțiune NU poate fi anulată!')) {
+                alert('🗑️ Ștergere date în curs...\n\nFuncționalitate în dezvoltare!');
+            }
+        }
+        
+        function regenerateKeys() {
+            if (confirm('⚠️ ATENȚIE!\n\nRegenerarea cheilor API va invalida toate conexiunile existente!\n\nContinui?')) {
+                alert('🔄 Regenerare chei în curs...\n\nFuncționalitate în dezvoltare!');
+            }
+        }
+        
+        // Atașează event listener pentru butonul secret admin
+        document.addEventListener('DOMContentLoaded', function() {
+            // SISTEM 10 CLICKURI SECRETE pentru butonul vizibil
+            let clickCount = 0;
+            let clickTimer = null;
+            const secretBtn = document.getElementById('secretAdminBtn');
+            
+            if (secretBtn) {
+                secretBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    clickCount++;
+                    
+                    console.log(`🔐 Click ${clickCount}/10`);
+                    
+                    // Efect vizual la fiecare click
+                    this.style.transform = 'scale(0.9)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 100);
+                    
+                    // Schimbă emoji-ul progresiv
+                    if (clickCount === 1) this.textContent = '🔐';
+                    if (clickCount === 2) this.textContent = '🔓';
+                    if (clickCount === 3) this.textContent = '🔑';
+                    if (clickCount === 4) this.textContent = '🗝️';
+                    if (clickCount === 5) this.textContent = '✨';
+                    if (clickCount === 6) this.textContent = '⭐';
+                    if (clickCount === 7) this.textContent = '🌟';
+                    if (clickCount === 8) this.textContent = '💫';
+                    if (clickCount === 9) this.textContent = '🚀';
+                    
+                    // La al 10-lea click - DESCHIDE ADMIN!
+                    if (clickCount >= 10) {
+                        this.textContent = '🎉';
+                        this.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+                        checkAdminAccess();
+                        clickCount = 0;
+                        
+                        // Resetează după 2 secunde
+                        setTimeout(() => {
+                            this.textContent = '🔐';
+                            this.style.background = 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)';
+                        }, 2000);
+                    }
+                    
+                    // Reset după 3 secunde de inactivitate
+                    clearTimeout(clickTimer);
+                    clickTimer = setTimeout(() => {
+                        clickCount = 0;
+                        this.textContent = '🔐';
+                        console.log('🔄 Reset counter');
+                    }, 3000);
+                });
+            }
+            
+            // Event listener pentru robotul din header (backup)
+            const adminTrigger = document.getElementById('adminTrigger');
+            if (adminTrigger) {
+                adminTrigger.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    checkAdminAccess();
+                });
+                console.log('✅ Admin trigger activated - Version: ADMIN-v2.0');
+            }
+            
+            // Verificare versiune (pentru debug)
+            console.log('🎉 SuperParty Dashboard v2.1 - 10 Secret Clicks Mode');
+        });
     </script>
 </body>
 </html>
